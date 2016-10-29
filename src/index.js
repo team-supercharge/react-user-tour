@@ -134,10 +134,14 @@ export default class ReactUserTour extends Component {
 		if (!this.props.active || !currentTourStep) {
 			return <span />;
 		}
+
+		const tourElHeight = currentTourStep.height ? currentTourStep.height : this.props.style.height;
+		const tourElWidth = currentTourStep.width ? currentTourStep.width : this.props.style.width;
+
 		const position = this.getStepPosition(
 			currentTourStep.selector,
-			this.props.style.width,
-			this.props.style.height,
+			tourElWidth,
+			tourElHeight,
 			currentTourStep.position,
 			currentTourStep.margin,
 			currentTourStep.horizontalOffset,

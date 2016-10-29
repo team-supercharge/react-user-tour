@@ -171,7 +171,11 @@ var ReactUserTour = function (_Component) {
 			if (!this.props.active || !currentTourStep) {
 				return _react2.default.createElement("span", null);
 			}
-			var position = this.getStepPosition(currentTourStep.selector, this.props.style.width, this.props.style.height, currentTourStep.position, currentTourStep.margin, currentTourStep.horizontalOffset, currentTourStep.verticalOffset);
+
+			var tourElHeight = currentTourStep.height ? currentTourStep.height : this.props.style.height;
+			var tourElWidth = currentTourStep.width ? currentTourStep.width : this.props.style.width;
+
+			var position = this.getStepPosition(currentTourStep.selector, tourElWidth, tourElHeight, currentTourStep.position, currentTourStep.margin, currentTourStep.horizontalOffset, currentTourStep.verticalOffset);
 			var style = _extends({}, this.props.style);
 			var arrow = this.props.arrow ? this.getCustomArrow(position) : _react2.default.createElement(_arrow2.default, {
 				position: position.positioned,
