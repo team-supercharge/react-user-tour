@@ -164,7 +164,6 @@ export default class ReactUserTour extends Component {
 			this.props.step !== this.props.steps.length ?
 				<TourButton
 					onClick={() => this.props.onNext(this.props.step + 1)}
-					onTouchTap={() => this.props.onNext(this.props.step + 1)}
 					{...extraButtonProps}
 					className="react-user-tour-next-button">
 						{this.props.nextButtonText}
@@ -175,7 +174,6 @@ export default class ReactUserTour extends Component {
 			this.props.step !== 1 ?
 				<TourButton
 					onClick={() => this.props.onBack(this.props.step - 1)}
-					onTouchTap={() => this.props.onBack(this.props.step - 1)}
 					{...extraButtonProps}
 					className="react-user-tour-back-button">
 						{this.props.backButtonText}
