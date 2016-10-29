@@ -184,7 +184,7 @@ export default class ReactUserTour extends Component {
 			this.props.step === this.props.steps.length ?
 				<TourButton
 					onClick={() => this.props.onCancel()}
-					onTouchTap={() => this.props.onCancel}
+					onTouchTap={() => this.props.onCancel()}
 					{...extraButtonProps}
 					className="react-user-tour-done-button">
 						{this.props.doneButtonText}
