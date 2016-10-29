@@ -74,6 +74,19 @@ var positions = {
 			top: position.top + window.pageYOffset + offsetHeight + arrowSize,
 			positioned: "bottomLeft"
 		};
+	},
+	centerOfWindow: function centerOfWindow(_ref7) {
+		var position = _ref7.position,
+		    tourElWidth = _ref7.tourElWidth,
+		    tourElHeight = _ref7.tourElHeight,
+		    arrowSize = _ref7.arrowSize,
+		    margin = _ref7.margin;
+
+		return {
+			left: window.innerWidth / 2 - tourElWidth / 2,
+			top: window.innerHeight / 2 - tourElHeight / 2,
+			positioned: "centerOfWindow"
+		};
 	}
 };
 

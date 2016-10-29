@@ -40,6 +40,13 @@ const positions = {
 			top: (position.top + window.pageYOffset) + offsetHeight + arrowSize,
 			positioned: "bottomLeft"
 		};
+	},
+	centerOfWindow: ({position, tourElWidth, tourElHeight, arrowSize, margin}) => {
+		return {
+			left: window.innerWidth / 2 - tourElWidth / 2,
+			top: window.innerHeight / 2 - tourElHeight / 2,
+			positioned: "centerOfWindow"
+		};
 	}
 }
 

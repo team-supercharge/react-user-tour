@@ -27,6 +27,7 @@ export default class ReactUserTour extends Component {
 		tourElWidth,
 		tourElHeight,
 		overridePos,
+		scrollTo,
 		margin = 25,
 		horizontalOffset = 0,
 		verticalOffset = 0
@@ -37,8 +38,12 @@ export default class ReactUserTour extends Component {
 		if (el) {
 			let position = el ? el.getBoundingClientRect() : {};
 			const isElementBelowViewBox = viewBoxHelpers.isElementBelowViewBox(windowHeight, position.top);
-			const isElementAboveViewBox = viewBoxHelpers.isElementBelowViewBox(position.bottom);
-			if (isElementBelowViewBox) {
+			const isElementAboveViewBox = viewBoxHelpers.isElementAboveViewBox(position.bottom);
+
+			if (scrollTo !== undefined) {
+				position = scrollToPosition(el, scrollTo);
+			}
+			else if (isElementBelowViewBox) {
 				position = scrollToPosition(el, position.bottom);
 			}
 			else if (isElementAboveViewBox) {
@@ -143,6 +148,7 @@ export default class ReactUserTour extends Component {
 			tourElWidth,
 			tourElHeight,
 			currentTourStep.position,
+			currentTourStep.scrollToPosition,
 			currentTourStep.margin,
 			currentTourStep.horizontalOffset,
 			currentTourStep.verticalOffset

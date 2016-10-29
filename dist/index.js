@@ -71,10 +71,10 @@ var ReactUserTour = function (_Component) {
 		}
 	}, {
 		key: "getStepPosition",
-		value: function getStepPosition(selector, tourElWidth, tourElHeight, overridePos) {
-			var margin = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 25;
-			var horizontalOffset = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
-			var verticalOffset = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
+		value: function getStepPosition(selector, tourElWidth, tourElHeight, overridePos, scrollTo) {
+			var margin = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 25;
+			var horizontalOffset = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
+			var verticalOffset = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 0;
 
 			var windowHeight = window.innerHeight;
 			var windowWidth = window.innerWidth;
@@ -82,8 +82,11 @@ var ReactUserTour = function (_Component) {
 			if (el) {
 				var position = el ? el.getBoundingClientRect() : {};
 				var isElementBelowViewBox = viewBoxHelpers.isElementBelowViewBox(windowHeight, position.top);
-				var isElementAboveViewBox = viewBoxHelpers.isElementBelowViewBox(position.bottom);
-				if (isElementBelowViewBox) {
+				var isElementAboveViewBox = viewBoxHelpers.isElementAboveViewBox(position.bottom);
+
+				if (scrollTo !== undefined) {
+					position = (0, _scrollToPosition2.default)(el, scrollTo);
+				} else if (isElementBelowViewBox) {
 					position = (0, _scrollToPosition2.default)(el, position.bottom);
 				} else if (isElementAboveViewBox) {
 					position = (0, _scrollToPosition2.default)(el, window.pageYOffset + position.top);
@@ -175,7 +178,7 @@ var ReactUserTour = function (_Component) {
 			var tourElHeight = currentTourStep.height ? currentTourStep.height : this.props.style.height;
 			var tourElWidth = currentTourStep.width ? currentTourStep.width : this.props.style.width;
 
-			var position = this.getStepPosition(currentTourStep.selector, tourElWidth, tourElHeight, currentTourStep.position, currentTourStep.margin, currentTourStep.horizontalOffset, currentTourStep.verticalOffset);
+			var position = this.getStepPosition(currentTourStep.selector, tourElWidth, tourElHeight, currentTourStep.position, currentTourStep.scrollToPosition, currentTourStep.margin, currentTourStep.horizontalOffset, currentTourStep.verticalOffset);
 			var style = _extends({}, this.props.style);
 			var arrow = this.props.arrow ? this.getCustomArrow(position) : _react2.default.createElement(_arrow2.default, {
 				position: position.positioned,
