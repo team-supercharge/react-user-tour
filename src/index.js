@@ -227,20 +227,72 @@ export default class ReactUserTour extends Component {
 				</span> : ""
 		);
 
-		return (
-			<div className="react-user-tour-container" style={this.props.containerStyle}>
-				<Motion style={{x: spring(position.left), y: spring(position.top)}}>
-					{({x, y}) =>
+		if (currentTourStep.fixed) {
+			Object.assign(style, {position: `fixed`});
+		}
 
-						<div style={{...style, transform: `translate3d(${x}px, ${y}px, 0)`}}>
-							{arrow}
-							{closeButton}
-							{currentTourStep.title}
-							{currentTourStep.body}
-							{tourButtonContainer}
-						</div>
-					}
-				</Motion>
+		const svgStyle = {
+			position: "absolute",
+			zIndex: 9999,
+			width: '100%',
+			height: '100%'
+		};
+
+		if (currentTourStep.fixed) {
+			Object.assign(svgStyle, {position: `fixed`});
+		}
+
+		const backdropStyle = {
+			fill: "rgba(0, 0, 0, 0.4)",
+			fillRule: 'evenodd'
+		};
+
+		let backdrop;
+		if (currentTourStep.highlight) {
+			let left, right, top, bottom;
+			const el = document.querySelector(currentTourStep.selector);
+
+			if (currentTourStep.position === 'centerOfWindow') {
+				left = window.innerWidth / 2;
+				top = window.innerHeight / 2;
+				right = left;
+				bottom = top;
+			} else if (el) {
+				const target = el.getBoundingClientRect();
+				left = target.left + window.scrollX;
+				right = left + target.width;
+				top = target.top + window.scrollY;
+				bottom = top + target.height;
+			}
+
+			backdrop = (
+				<svg style={svgStyle} version="1.1" xmlns="http://www.w3.org/2000/svg">
+					<Motion style={{x1: spring(left), x2: spring(right), y1: spring(top), y2: spring(bottom)}}>
+						{({x1, x2, y1, y2}) =>	  	
+					  	<path style={backdropStyle} d={`M0,0 L100000,0 100000,100000 0,100000 M${x1},${y1} L${x2},${y1} ${x2},${y2} ${x1},${y2} z`}></path>
+					  	}
+					</Motion>
+				</svg>
+			);
+		}
+		
+		return (
+			<div>
+				{backdrop}
+				<div className="react-user-tour-container" style={this.props.containerStyle}>
+					<Motion style={{x: spring(position.left), y: spring(position.top)}}>
+						{({x, y}) =>
+
+							<div style={{...style, transform: `translate3d(${x}px, ${y}px, 0)`}}>
+								{arrow}
+								{closeButton}
+								{currentTourStep.title}
+								{currentTourStep.body}
+								{tourButtonContainer}
+							</div>
+						}
+					</Motion>
+				</div>
 			</div>
 		);
 	}

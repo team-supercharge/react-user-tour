@@ -250,25 +250,88 @@ var ReactUserTour = function (_Component) {
 				this.props.closeButtonText
 			) : "";
 
+			if (currentTourStep.fixed) {
+				Object.assign(style, { position: "fixed" });
+			}
+
+			var svgStyle = {
+				position: "absolute",
+				zIndex: 9999,
+				width: '100%',
+				height: '100%'
+			};
+
+			if (currentTourStep.fixed) {
+				Object.assign(svgStyle, { position: "fixed" });
+			}
+
+			var backdropStyle = {
+				fill: "rgba(0, 0, 0, 0.4)",
+				fillRule: 'evenodd'
+			};
+
+			var backdrop = void 0;
+			if (currentTourStep.highlight) {
+				var left = void 0,
+				    right = void 0,
+				    top = void 0,
+				    bottom = void 0;
+				var el = document.querySelector(currentTourStep.selector);
+
+				if (currentTourStep.position === 'centerOfWindow') {
+					left = window.innerWidth / 2;
+					top = window.innerHeight / 2;
+					right = left;
+					bottom = top;
+				} else if (el) {
+					var target = el.getBoundingClientRect();
+					left = target.left + window.scrollX;
+					right = left + target.width;
+					top = target.top + window.scrollY;
+					bottom = top + target.height;
+				}
+
+				backdrop = _react2.default.createElement(
+					"svg",
+					{ style: svgStyle, version: "1.1", xmlns: "http://www.w3.org/2000/svg" },
+					_react2.default.createElement(
+						_reactMotion.Motion,
+						{ style: { x1: (0, _reactMotion.spring)(left), x2: (0, _reactMotion.spring)(right), y1: (0, _reactMotion.spring)(top), y2: (0, _reactMotion.spring)(bottom) } },
+						function (_ref) {
+							var x1 = _ref.x1,
+							    x2 = _ref.x2,
+							    y1 = _ref.y1,
+							    y2 = _ref.y2;
+							return _react2.default.createElement("path", { style: backdropStyle, d: "M0,0 L100000,0 100000,100000 0,100000 M" + x1 + "," + y1 + " L" + x2 + "," + y1 + " " + x2 + "," + y2 + " " + x1 + "," + y2 + " z" });
+						}
+					)
+				);
+			}
+
 			return _react2.default.createElement(
 				"div",
-				{ className: "react-user-tour-container", style: this.props.containerStyle },
+				null,
+				backdrop,
 				_react2.default.createElement(
-					_reactMotion.Motion,
-					{ style: { x: (0, _reactMotion.spring)(position.left), y: (0, _reactMotion.spring)(position.top) } },
-					function (_ref) {
-						var x = _ref.x,
-						    y = _ref.y;
-						return _react2.default.createElement(
-							"div",
-							{ style: _extends({}, style, { transform: "translate3d(" + x + "px, " + y + "px, 0)" }) },
-							arrow,
-							closeButton,
-							currentTourStep.title,
-							currentTourStep.body,
-							tourButtonContainer
-						);
-					}
+					"div",
+					{ className: "react-user-tour-container", style: this.props.containerStyle },
+					_react2.default.createElement(
+						_reactMotion.Motion,
+						{ style: { x: (0, _reactMotion.spring)(position.left), y: (0, _reactMotion.spring)(position.top) } },
+						function (_ref2) {
+							var x = _ref2.x,
+							    y = _ref2.y;
+							return _react2.default.createElement(
+								"div",
+								{ style: _extends({}, style, { transform: "translate3d(" + x + "px, " + y + "px, 0)" }) },
+								arrow,
+								closeButton,
+								currentTourStep.title,
+								currentTourStep.body,
+								tourButtonContainer
+							);
+						}
+					)
 				)
 			);
 		}
