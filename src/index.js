@@ -44,7 +44,7 @@ export default class ReactUserTour extends Component {
 				position = scrollToPosition(el, scrollTo);
 			}
 			else if (isElementBelowViewBox) {
-				position = scrollToPosition(el, position.bottom);
+				position = scrollToPosition(el, window.pageYOffset + position.top - 100);
 			}
 			else if (isElementAboveViewBox) {
 				position = scrollToPosition(el, window.pageYOffset + position.top);

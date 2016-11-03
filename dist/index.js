@@ -87,7 +87,7 @@ var ReactUserTour = function (_Component) {
 				if (scrollTo !== undefined) {
 					position = (0, _scrollToPosition2.default)(el, scrollTo);
 				} else if (isElementBelowViewBox) {
-					position = (0, _scrollToPosition2.default)(el, position.bottom);
+					position = (0, _scrollToPosition2.default)(el, window.pageYOffset + position.top - 100);
 				} else if (isElementAboveViewBox) {
 					position = (0, _scrollToPosition2.default)(el, window.pageYOffset + position.top);
 				}
