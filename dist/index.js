@@ -70,6 +70,14 @@ var ReactUserTour = function (_Component) {
 			return this.props.step !== nextProps.step || this.props.active !== nextProps.active;
 		}
 	}, {
+		key: "getScrollPosition",
+		value: function getScrollPosition() {
+			return {
+				x: window.pageXOffset || document.documentElement.scrollLeft,
+				y: window.pageYOffset || document.documentElement.scrollTop
+			};
+		}
+	}, {
 		key: "getStepPosition",
 		value: function getStepPosition(selector, tourElWidth, tourElHeight, overridePos, scrollTo) {
 			var margin = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 25;
@@ -285,9 +293,9 @@ var ReactUserTour = function (_Component) {
 					bottom = top;
 				} else if (el) {
 					var target = el.getBoundingClientRect();
-					left = target.left + window.scrollX;
+					left = target.left + this.getScrollPosition().x;
 					right = left + target.width;
-					top = target.top + window.scrollY;
+					top = target.top + this.getScrollPosition().y;
 					bottom = top + target.height;
 				}
 

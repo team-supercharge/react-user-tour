@@ -22,6 +22,13 @@ export default class ReactUserTour extends Component {
 		return this.props.step !== nextProps.step || this.props.active !== nextProps.active;
 	}
 
+	getScrollPosition() {
+		return {
+			x: window.pageXOffset || document.documentElement.scrollLeft,
+			y: window.pageYOffset || document.documentElement.scrollTop
+		};
+	}
+
 	getStepPosition(
 		selector,
 		tourElWidth,
@@ -120,7 +127,7 @@ export default class ReactUserTour extends Component {
 
 	getCustomArrow(position) {
 		return (
-				typeof this.props.arrow === "function" 
+				typeof this.props.arrow === "function"
 				?
 				this.props.arrow({
 					position: position.positioned,
@@ -129,7 +136,7 @@ export default class ReactUserTour extends Component {
 					size: this.props.arrowSize,
 					color: this.props.arrowColor
 				})
-				: 
+				:
 				this.props.arrow
 			);
 	}
@@ -158,7 +165,7 @@ export default class ReactUserTour extends Component {
 			this.props.arrow
 			?
 			this.getCustomArrow(position)
-			: 
+			:
 			<Arrow
 				position={position.positioned}
 				width={this.props.style.width}
@@ -259,23 +266,23 @@ export default class ReactUserTour extends Component {
 				bottom = top;
 			} else if (el) {
 				const target = el.getBoundingClientRect();
-				left = target.left + window.scrollX;
+				left = target.left + this.getScrollPosition().x;
 				right = left + target.width;
-				top = target.top + window.scrollY;
+				top = target.top + this.getScrollPosition().y;
 				bottom = top + target.height;
 			}
 
 			backdrop = (
 				<svg style={svgStyle} version="1.1" xmlns="http://www.w3.org/2000/svg">
 					<Motion style={{x1: spring(left), x2: spring(right), y1: spring(top), y2: spring(bottom)}}>
-						{({x1, x2, y1, y2}) =>	  	
+						{({x1, x2, y1, y2}) =>
 					  	<path style={backdropStyle} d={`M0,0 L100000,0 100000,100000 0,100000 M${x1},${y1} L${x2},${y1} ${x2},${y2} ${x1},${y2} z`}></path>
 					  	}
 					</Motion>
 				</svg>
 			);
 		}
-		
+
 		return (
 			<div>
 				{backdrop}
